@@ -1,0 +1,8 @@
+(LP, ()
+(ID, xwjx12j)
+(PLUS,  )
+(INT, 1)
+(RP, ))
+(MUL,  )
+(ID, j000)
+(END, )

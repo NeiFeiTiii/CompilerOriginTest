@@ -1,0 +1,25 @@
+# ninja log v5
+2	113	7527606090825746	CMakeFiles/ComplieTest2.dir/main.c.obj	a4f401c4ea3bd16
+109	228	7527606633945982	ComplieTest2.exe	37d39c334415f886
+1	108	7527606632778962	CMakeFiles/ComplieTest2.dir/SLR1.c.obj	b9874a8a68a294e1
+17	175	7527558610342802	CMakeFiles/ComplieTest2.dir/Recursive.c.obj	83f2b12626c6d6e4
+63	176	7527558610699307	CMakeFiles/ComplieTest2.dir/GramAnalysis.c.obj	ef8977617d77e645
+32	176	7527558610569478	CMakeFiles/ComplieTest2.dir/Lexical.c.obj	1cddffb7a6eb91f3
+1	200	7527671258227780	build.ninja	402cddf89d9f7331
+16	160	7527675474740368	CMakeFiles/ComplieTest2.dir/main.c.obj	59e63adda6e4b8e2
+48	161	7527675474750459	CMakeFiles/ComplieTest2.dir/GramAnalysis.c.obj	9c245d34000f6f1b
+2	162	7527675474750459	CMakeFiles/ComplieTest2.dir/Recursive.c.obj	13a0a4d1e7de6f06
+38	163	7527675474780427	CMakeFiles/ComplieTest2.dir/SLR1.c.obj	631e862d7a933d72
+27	164	7527675474790430	CMakeFiles/ComplieTest2.dir/Lexical.c.obj	39dafdda0da7ab0a
+164	292	7527675476018960	ComplieTest2.exe	cea7365bfa6e921
+2	124	7527689679331774	CMakeFiles/ComplieTest2.dir/main.c.obj	59e63adda6e4b8e2
+33	125	7527689679331774	CMakeFiles/ComplieTest2.dir/SLR1.c.obj	631e862d7a933d72
+14	126	7527689679331774	CMakeFiles/ComplieTest2.dir/Recursive.c.obj	13a0a4d1e7de6f06
+24	126	7527689679341819	CMakeFiles/ComplieTest2.dir/GramAnalysis.c.obj	9c245d34000f6f1b
+126	246	7527689680508457	ComplieTest2.exe	cea7365bfa6e921
+1	88	7527700426180308	CMakeFiles/ComplieTest2.dir/main.c.obj	59e63adda6e4b8e2
+90	196	7527700427220616	ComplieTest2.exe	cea7365bfa6e921
+1	86	7527700915438737	CMakeFiles/ComplieTest2.dir/main.c.obj	59e63adda6e4b8e2
+87	188	7527700916413891	ComplieTest2.exe	cea7365bfa6e921
+1	1182	7528544355101387	CMakeFiles/ComplieTest2.dir/main.c.obj	59e63adda6e4b8e2
+1183	1973	7528544362981401	ComplieTest2.exe	cea7365bfa6e921
