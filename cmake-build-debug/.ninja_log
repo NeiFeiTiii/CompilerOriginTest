@@ -1,0 +1,21 @@
+# ninja log v5
+18	85	7539722798858166	CMakeFiles/CompileTestEnd.dir/main.c.obj	fb9730eef5a63a9d
+0	86	7539722798868158	CMakeFiles/CompileTestEnd.dir/PraseWithRecursive.c.obj	b74c46e1aef91bf9
+9	95	7539722798958379	CMakeFiles/CompileTestEnd.dir/Lexical2.0.c.obj	44eb8417c247ab2e
+1	101	7539723526894142	CMakeFiles/CompileTestEnd.dir/main.c.obj	fb9730eef5a63a9d
+103	219	7539723528020536	CompileTestEnd.exe	e2fd862e0df8f188
+1	87	7539724280258764	CMakeFiles/CompileTestEnd.dir/Lexical2.0.c.obj	44eb8417c247ab2e
+89	176	7539724281099223	CompileTestEnd.exe	e2fd862e0df8f188
+1	85	7539724708174081	CMakeFiles/CompileTestEnd.dir/Lexical2.0.c.obj	44eb8417c247ab2e
+86	166	7539724708952340	CompileTestEnd.exe	e2fd862e0df8f188
+1	83	7539725430688343	CMakeFiles/CompileTestEnd.dir/Lexical2.0.c.obj	44eb8417c247ab2e
+84	169	7539725431518577	CompileTestEnd.exe	e2fd862e0df8f188
+19	89	7539742865441243	CMakeFiles/CompileTestEnd.dir/main.c.obj	fb9730eef5a63a9d
+11	91	7539742865451222	CMakeFiles/CompileTestEnd.dir/PraseWithRecursive.c.obj	b74c46e1aef91bf9
+2	95	7539742865501605	CMakeFiles/CompileTestEnd.dir/Lexical2.0.c.obj	44eb8417c247ab2e
+1	95	7539743064203488	CMakeFiles/CompileTestEnd.dir/Lexical2.0.c.obj	44eb8417c247ab2e
+97	175	7539743064956733	CompileTestEnd.exe	e2fd862e0df8f188
+17	87	7539745635456502	CMakeFiles/CompileTestEnd.dir/main.c.obj	fb9730eef5a63a9d
+9	89	7539745635466503	CMakeFiles/CompileTestEnd.dir/PraseWithRecursive.c.obj	b74c46e1aef91bf9
+1	95	7539745635525845	CMakeFiles/CompileTestEnd.dir/Lexical2.0.c.obj	44eb8417c247ab2e
+95	178	7539745636308958	CompileTestEnd.exe	e2fd862e0df8f188
