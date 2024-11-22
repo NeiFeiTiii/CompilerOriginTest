@@ -3,7 +3,7 @@
 #include "Recursive.h"
 #include "SLR1.h"
 #include "ToPoland.h"
-#include "PraseExpre.h"
+#include "PraseWithRecursive.h"
 
 int main() {
     // Lexical analysis
@@ -31,6 +31,7 @@ int main() {
         printf("Poland analysis failed\n");
         return PolandFlag;
     }*/
+    // （递归下降分析 + 语法制导四元式输出）
     int parseExpressionFlag = PraseWithRecursive();
     if (parseExpressionFlag != 0) {
         printf("Expression parsing failed\n");

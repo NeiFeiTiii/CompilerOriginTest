@@ -35,7 +35,7 @@ These files contain functions for SLR1 parsing. The main functions include:
 - `Goto`: Retrieves the next state from the parsing table.
 - `SLR1`: Main function for SLR1 parsing.
 
-### 5. Expression Parsing (`PraseExpre.c` and `PraseExpre.h`)
+### 5. Expression Parsing (`PraseWithRecursive.c` and `PraseWithRecursive.h`)
 These files contain functions for parsing expressions and generating quaternions. The main functions include:
 - `GEN`: Generates a quaternion.
 - `NewTemp`: Creates a new temporary variable.

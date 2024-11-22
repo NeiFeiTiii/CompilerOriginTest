@@ -1,9 +1,8 @@
 //
 // Created by ddd on 2024/11/22.
 //
-
-#ifndef COMPLIETEST2_PRASEEXPRE_H
-#define COMPLIETEST2_PRASEEXPRE_H
+#ifndef COMPLIETEST2_PRASEWITHRECURSIVE_H
+#define COMPLIETEST2_PRASEWITHRECURSIVE_H
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -36,7 +35,8 @@ char *NewTemp(void);
 char *E(void);
 char *T(void);
 char *F(void);
+
 int PraseWithRecursive();
 
-#endif //COMPLIETEST2_PRASEEXPRE_H
+#endif //COMPLIETEST2_PRASEWITHRECURSIVE_H
 

@@ -10,5 +10,5 @@ add_executable(ComplieTest2 main.c Recursive.c Lexical.c
         GramAnalysis.c
         ToPoland.c
         ToPoland.h
-        PraseExpre.c
-        PraseExpre.h)
+        PraseWithRecursive.c
+        PraseWithRecursive.h)
