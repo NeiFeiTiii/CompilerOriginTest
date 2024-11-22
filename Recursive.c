@@ -44,6 +44,7 @@ void parse_F() {
 
 int Recursive() {
     //readTokens("E:\\CODE\\ComplieTest2\\output.txt");
+    printf("----Start Recursive analysis----\n");
     parse_E();
     Token token = getNextToken();
     if (token.type == END) {

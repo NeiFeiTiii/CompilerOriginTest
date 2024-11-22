@@ -190,10 +190,11 @@ void scanner_example(FILE *fp) {
             TOKEN[i] = '\0';
             fseek(fp, -1, SEEK_CUR);  /* retract */
             if (is_real) {
-                double value = strtod(TOKEN, NULL);
+                out(REAL, TOKEN);
+                /*double value = strtod(TOKEN, NULL);
                 char buffer[MAX_TOKEN_LENGTH];
                 sprintf(buffer, "%g", value);
-                out(REAL, buffer);
+                out(REAL, buffer);*/
             } else if (is_hex) {
                 out(HEX, TOKEN);
             } else if (is_octal) {

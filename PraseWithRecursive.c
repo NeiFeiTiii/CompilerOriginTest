@@ -4,8 +4,8 @@
 #include "PraseWithRecursive.h"
 
 QUATERNION pQuad[MAXLENGTH];
-int NXQ = 0;
-int NXTemp = 1;
+int NXQ = 0;    /*全局变量NXQ用于指示所要产生的下一个四元式的编号*/
+int NXTemp = 1; //Tn的n值
 
 WORD word;
 
@@ -17,6 +17,7 @@ void GEN(char *Op, char *Arg1, char *Arg2, char *Result) {
     NXQ++;
 }
 
+// 用于更新TempID，sprintf转化为字符串存储
 char *NewTemp(void) {
     char *TempID = (char *)malloc(MAXLENGTH);
     sprintf(TempID, "T%d", NXTemp++);
@@ -51,7 +52,6 @@ char *T(void) {
         } else {
             strcpy(opp, "/");
         }
-        //sprintf(opp, "%s", word.Value.Val4);
         scanner();
         T2_place = F();
         Temp_place = NewTemp();
@@ -75,11 +75,11 @@ char *F(void) {
             return place;
         } else {
             printf("ERROR: dont have')'\n");
-            exit(EXIT_FAILURE);
+            exit(-1);
         }
     } else {
         printf("ERROR: Not A Valid Prase\n");
-        exit(EXIT_FAILURE);
+        exit(-1);
     }
 }
 
@@ -114,7 +114,7 @@ void scanner() {
     }
     tokenIndex++;
 }
-
+// 启动递归下降下的语法制导翻译
 int PraseWithRecursive() {
     // 初始化第一个单词符号
     scanner();

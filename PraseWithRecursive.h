@@ -15,23 +15,23 @@ typedef struct {
     char arg1[MAXLENGTH];
     char arg2[MAXLENGTH];
     char result[MAXLENGTH];
-} QUATERNION;
+} QUATERNION;   /*存放四元式的数组*/
 
 typedef union {
     char Val1[MAXLENGTH];
     int Val2;
     float Val3;
-    char Val4[MAXLENGTH];
+    char Val4[5];
 } WORDCONTENT;
 
 typedef struct {
     TokenType Class;
     WORDCONTENT Value;
-} WORD;
+} WORD;     //  此处为了和前面实验一二对应，修改了CLASS的变量类型
 
 void scanner(); // 获取下一个单词符号
-void GEN(char *Op, char *Arg1, char *Arg2, char *Result);
-char *NewTemp(void);
+void GEN(char *Op, char *Arg1, char *Arg2, char *Result);   //生成新的四元式
+char *NewTemp(void);    //更新Tn
 char *E(void);
 char *T(void);
 char *F(void);

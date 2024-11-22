@@ -51,6 +51,7 @@ void parse() {
     stack[top] = 0; // Initial state
     Token token = getNextToken();
 
+
     while (1) {
         int state = stack[top];
         int flag = token.type;
@@ -84,7 +85,8 @@ void parse() {
                     break;
                 case 6: // T -> F
                     top -= 1;
-                    nonTerminalIndex = 1; // T
+                    nonTerminalIndex =
+                                            1; // T
                     break;
                 case 7: // F -> ( E )
                     top -= 3;
@@ -110,7 +112,8 @@ void parse() {
 }
 
 int SLR1() {
-    //readTokens("E:\\CODE\\ComplieTest2\\output.txt");
+    printf("-----Start parsing with SLR1...-----\n");
     parse();
+    printf("-----End parsing with SLR1-----\n");
     return 0;
 }

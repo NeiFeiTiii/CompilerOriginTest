@@ -17,6 +17,7 @@ void retractToken() {
 }
 
 void readTokens(const char *filename) {
+    printf("----Start to Read Tokens----\n");
     FILE *file = fopen(filename, "r");
     if (!file) {
         printf("Error: Cannot open token file\n");
@@ -43,11 +44,10 @@ void readTokens(const char *filename) {
         strcpy(tokens[tokenIndex].value, value);
         tokens[tokenIndex].row = row;
         tokens[tokenIndex].col = col;
-        col ++;
+        col += strlen(value) - 1;
         // 将字符串类型转换为枚举类型
         printf("typeStr: %s\n", typeStr);
-        printf("value: %s\n", tokens[tokenIndex].value);
-
+        printf("value: %s ,length: %llu\n", tokens[tokenIndex].value, strlen(tokens[tokenIndex].value)-1);
         if (strcmp(typeStr, "RP") == 0) {
             fgetc(file);
         }
@@ -62,4 +62,5 @@ void readTokens(const char *filename) {
     }
     tokens[tokenIndex].type = END;
     fclose(file);
+    printf("----End of Reading Tokens----\n");
 }
