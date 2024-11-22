@@ -7,4 +7,8 @@ add_executable(ComplieTest2 main.c Recursive.c Lexical.c
         SLR1.h
         SLR1.c
         GramAnalysis.h
-        GramAnalysis.c)
+        GramAnalysis.c
+        ToPoland.c
+        ToPoland.h
+        PraseExpre.c
+        PraseExpre.h)

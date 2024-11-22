@@ -2,6 +2,8 @@
 #include "Lexical.h"
 #include "Recursive.h"
 #include "SLR1.h"
+#include "ToPoland.h"
+#include "PraseExpre.h"
 
 int main() {
     // Lexical analysis
@@ -23,6 +25,16 @@ int main() {
     if (SLR1Flag != 0) {
         printf("Grammatical analysis failed\n");
         return SLR1Flag;
+    }
+/*    int PolandFlag = Poland();
+    if (PolandFlag != 0) {
+        printf("Poland analysis failed\n");
+        return PolandFlag;
+    }*/
+    int parseExpressionFlag = PraseWithRecursive();
+    if (parseExpressionFlag != 0) {
+        printf("Expression parsing failed\n");
+        return parseExpressionFlag;
     }
     return 0;
 }

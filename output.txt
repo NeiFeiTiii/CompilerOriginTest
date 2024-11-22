@@ -1,7 +1,7 @@
 (LP, ()
 (ID, xwjx12j)
 (PLUS,  )
-(INT, 1)
+(ID, y)
 (RP, ))
 (MUL,  )
 (ID, j000)
