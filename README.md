@@ -10,7 +10,7 @@ If you have any questions, please contact me.
 With Cmake and C++11, you can compile and run the code.
 
 ## 3.Tips
-The code is only for learning and communication, <span style="color: red;"> not for fasting to complete the experiment</span>,
+The code is only for learning and communication, <span style="color: red;"> **not for fasting to complete the experiment**</span>,
 Thanks for your attention.
 
 ## 4. Code Content
