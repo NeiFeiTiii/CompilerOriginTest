@@ -39,10 +39,6 @@ extern const char* token_names[];
 
 
 int lookup(char *token);
-void scanner_example(FILE *fp);
-int Lexical();
-int Lexical2();
-void scanner_example2(FILE *fp);
-
+Token getNextToken();
 
 #endif // LEXICAL_H

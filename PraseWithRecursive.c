@@ -8,6 +8,13 @@ int NXQ = 0;    /*全局变量NXQ用于指示所要产生的下一个四元式�
 int NXTemp = 1; //Tn的n值
 
 WORD word;
+Token token;
+
+void ErrorPrint(const char *message){
+    printf("ERROR: %s at token %d (%s,%s),%d:%d\n", message, currentToken, token_names[token.type],token.value,token.row, token.col+1);
+    exit(666);
+}
+
 
 void GEN(char *Op, char *Arg1, char *Arg2, char *Result) {
     strcpy(pQuad[NXQ].op, Op);
@@ -73,17 +80,15 @@ char *F(void) {
             scanner();
             return place;
         } else {
-            printf("ERROR: dont have')'\n");
-            exit(-1);
+            ErrorPrint("dont have')'");
         }
     } else {
-        printf("ERROR: Not A Valid Prase\n");
-        exit(-1);
+        ErrorPrint("Not A Valid Prase");
     }
 }
 
 void scanner() {
-    Token token = getNextToken();
+    token = getNextToken();
     word.Class = token.type;
     switch (word.Class) {
         case ID:
@@ -100,10 +105,10 @@ void scanner() {
             strcpy(word.Value.Val4, token.value);
             break;
         case END:
-            printf("End of tokens\n");
+            printf("End of tokens");
             return;
         default:
-            printf("Error: Unknown token type\n");
+            ErrorPrint("Unknown token type");
             exit(1);
     }
 }
