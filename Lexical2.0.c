@@ -22,47 +22,55 @@ int line_number = 1;
 int column_number = 0;
 
 int lookup(char *token) {
-    if (strcmp(token, "for") == 0){
-        out(FOR, "",line_number,column_number);
+    Token tempToken;
+    tempToken.row = line_number;
+    tempToken.col = column_number;
+    strcpy(tempToken.value, token);
+
+    if (strcmp(token, "for") == 0) {
+        tempToken.type = FOR;
+        out(tempToken);
         return FOR;
     }
     if (strcmp(token, "if") == 0) {
-        out(IF, "",line_number,column_number);
+        tempToken.type = IF;
+        out(tempToken);
         return IF;
     }
     if (strcmp(token, "else") == 0) {
-        out(ELSE, "",line_number,column_number);
+        tempToken.type = ELSE;
+        out(tempToken);
         return ELSE;
     }
-
-    if (strcmp(token, "and") == 0)
-    {
-        out(AND, "",line_number,column_number);
+    if (strcmp(token, "and") == 0) {
+        tempToken.type = AND;
+        out(tempToken);
         return AND;
     }
     if (strcmp(token, "or") == 0) {
-        out(OR, "",line_number,column_number);
+        tempToken.type = OR;
+        out(tempToken);
         return OR;
     }
     if (strcmp(token, "not") == 0) {
-        out(NOT, "",line_number,column_number);
+        tempToken.type = NOT;
+        out(tempToken);
         return NOT;
     }
+    tempToken.type = ID;
     return ID;
 }
 
-void out(int code, char *token,int line,int column) {
-    fprintf(output_file, "(%s, %s)\n", token_names[code], token);
-    tokens[currentToken].type = code;
-    strcpy(tokens[currentToken].value, token);
-    tokens[currentToken].row = line;
-    tokens[currentToken].col = column;
+void out(Token token) {
+    output_file = fopen("Lex.txt", "a"); // Open in append mode
+    fprintf(output_file, "(%s, %s)\n", token_names[token.type], token.value);
+    tokens[currentToken] = token;
     currentToken ++;
-
+    fclose(output_file); // Close the file after writing
 }
 
 void report_error(const char *error_type) {
-    fprintf(output_file, "Error: %s, in line %d, column %d\n", error_type, line_number,column_number);
+    printf( "Error: %s, in line %d, column %d\n", error_type, line_number,column_number);
 }
 
 Token getNextToken() {
@@ -70,7 +78,7 @@ Token getNextToken() {
     static int initialized = 0;
     static long file_offset = 0;
     if (!initialized) {
-        fp = fopen("E:\\CODE\\CompileTestEnd\\input.txt", "r");
+        fp = fopen("input.txt", "r");
         if (fp == NULL) {
             printf("Error: Cannot open source file\n");
             exit(1);
@@ -91,26 +99,14 @@ Token getNextToken() {
     while (1) {
         if (ch == EOF) {
             Token token = {END, " ", -1, -1};
+            out(token);
             free(TOKEN);
+            file_offset = ftell(fp);
             return token;
         }
         fseek(fp, -1, SEEK_CUR);
         ch = fgetc(fp);
-        if (ch == EOF) {
-            Token token = {END, " ", -1, -1};
-            free(TOKEN);
-            return token;
-        }
-        if (isspace(ch)) {
-            if (ch == '\n') {
-                line_number++;
-                column_number = 0;
-            } else {
-                column_number++;
-            }
-            ch = fgetc(fp);
-            continue;
-        }
+
         if (ch == '#') {
             while (ch != '\n') {
                 ch = fgetc(fp);
@@ -118,129 +114,200 @@ Token getNextToken() {
             }
             continue;
         }
-        if (isalpha(ch)) {
+        if (isalpha(ch)) {  // ID
             TOKEN[0] = ch;
-            ch = fgetc(fp);
             column_number++;
             i = 1;
-            while (isalnum(ch)) {
-                TOKEN[i] = ch;
-                i++;
-                ch = fgetc(fp);
-                column_number++;
+            ch = fgetc(fp);
+            if (ch == EOF) {
+                fseek(fp, 0, SEEK_END);
+                file_offset = ftell(fp);
+            }
+            else{
+                while (isalnum(ch)) {
+                    TOKEN[i] = ch;
+                    i++;
+                    ch = fgetc(fp);
+                    column_number++;
+                    if (ch == EOF) {
+                        fseek(fp, 0, SEEK_END);
+                        file_offset = ftell(fp);
+                    }
+                }
+                if (ch != EOF)
+                    fseek(fp, -1, SEEK_CUR);
             }
             TOKEN[i] = '\0';
-            fseek(fp, -1, SEEK_CUR);
-            column_number--;
+
+            file_offset = ftell(fp);
             c = lookup(TOKEN);
             if (c == ID) {
                 Token token = {ID, "", line_number, column_number};
                 strcpy(token.value, TOKEN);
+                out(token);
                 free(TOKEN);
-                file_offset = ftell(fp);
                 return token;
             }
-        } else if (isdigit(ch)) {
+        }
+        if (isdigit(ch)) {
             TOKEN[0] = ch;
             ch = fgetc(fp);
             column_number++;
             i = 1;
+
             int is_real = 0;
             int is_octal = (TOKEN[0] == '0');
             int is_hex = 0;
-            if (is_octal && (ch == 'x' || ch == 'X')) {
-                is_octal = 0;
-                is_hex = 1;
-                TOKEN[i] = ch;
-                i++;
-                ch = fgetc(fp);
-                column_number++;
-                while ((ch <= 70 && ch >= 65) || (ch <= 102 && ch >= 97) || isdigit(ch)) {
+            if (ch == EOF) {
+                fseek(fp, 0, SEEK_END);
+                file_offset = ftell(fp);
+            } else {
+                if (is_octal && (ch == 'x' || ch == 'X')) {     // 16进制
+                    is_octal = 0;
+                    is_hex = 1;
                     TOKEN[i] = ch;
                     i++;
-                    ch = fgetc(fp);
                     column_number++;
+                    ch = fgetc(fp);
+                    if (ch == EOF) {
+                        fseek(fp, 0, SEEK_END);
+                        file_offset = ftell(fp);
+                    } else {
+                        while ((ch <= 70 && ch >= 65) || (ch <= 102 && ch >= 97) || isdigit(ch)) {
+                            TOKEN[i] = ch;
+                            i++;
+                            ch = fgetc(fp);
+                            column_number++;
+                        }
+                        if (ch != EOF)
+                            fseek(fp, -1, SEEK_CUR);
+                    }
                 }
-            }
-            if (is_octal && ch != 'x' && ch != 'X') {
-                while (isdigit(ch)) {
-                    TOKEN[i] = ch;
-                    i++;
-                    ch = fgetc(fp);
-                    column_number++;
-                }
-            }
-            while (isdigit(ch)) {
-                TOKEN[i] = ch;
-                i++;
-                ch = fgetc(fp);
-                column_number++;
-            }
-            if (ch == '.') {
-                TOKEN[i] = ch;
-                is_real = 1;
-                i++;
-                ch = fgetc(fp);
-                while (isdigit(ch)) {
-                    TOKEN[i] = ch;
-                    i++;
-                    ch = fgetc(fp);
-                    column_number++;
-                }
-            }
-            if (ch == 'e' || ch == 'E') {
-                is_real = 1;
-                TOKEN[i] = ch;
-                i++;
-                ch = fgetc(fp);
-                column_number++;
-                if (ch == '+' || ch == '-') {
-                    TOKEN[i] = ch;
-                    i++;
-                    ch = fgetc(fp);
-                    column_number++;
+                if (is_octal && ch != 'x' && ch != 'X') {       // 8进制
+                    is_octal = 0;
                     while (isdigit(ch)) {
                         TOKEN[i] = ch;
                         i++;
                         ch = fgetc(fp);
                         column_number++;
+                        is_octal = 1;
                     }
+                    if (ch == EOF) {
+                        fseek(fp, 0, SEEK_END);
+                        file_offset = ftell(fp);
+                    } else
+                        fseek(fp, -1, SEEK_CUR);
                 }
-                while (isdigit(ch)) {
+                while (isdigit(ch)) {       // 10进制
                     TOKEN[i] = ch;
                     i++;
                     ch = fgetc(fp);
                     column_number++;
                 }
+                if (ch == EOF) {
+                    fseek(fp, 0, SEEK_END);
+                    file_offset = ftell(fp);
+                } else {
+                    if (ch == '.') {
+                        TOKEN[i] = ch;
+                        is_real = 1;
+                        i++;
+                        ch = fgetc(fp);
+                        while (isdigit(ch)) {
+                            TOKEN[i] = ch;
+                            i++;
+                            ch = fgetc(fp);
+                            column_number++;
+                        }
+                        if (ch == EOF) {
+                            fseek(fp, 0, SEEK_END);
+                            file_offset = ftell(fp);
+                        } else
+                            fseek(fp, -1, SEEK_CUR);
+                    }
+                    if (ch == 'e' || ch == 'E') {
+                        is_real = 1;
+                        TOKEN[i] = ch;
+                        i++;
+                        ch = fgetc(fp);
+                        column_number++;
+                        if (ch == EOF) {
+                            fseek(fp, 0, SEEK_END);
+                            file_offset = ftell(fp);
+                            ErrorPrint("Real number not complete,In the end of file");
+                        } else {
+                            if (ch == '+' || ch == '-') {
+                                TOKEN[i] = ch;
+                                i++;
+                                ch = fgetc(fp);
+                                column_number++;
+                                if (ch == EOF) {
+                                    fseek(fp, 0, SEEK_END);
+                                    file_offset = ftell(fp);
+                                    ErrorPrint("Real number not complete,In the end of file");
+                                    while (isdigit(ch)) {
+                                        TOKEN[i] = ch;
+                                        i++;
+                                        ch = fgetc(fp);
+                                        column_number++;
+                                    }
+                                    if (ch == EOF) {
+                                        fseek(fp, 0, SEEK_END);
+                                        file_offset = ftell(fp);
+                                    } else
+                                        fseek(fp, -1, SEEK_CUR);
+                                }
+                                while (isdigit(ch)) {
+                                    TOKEN[i] = ch;
+                                    i++;
+                                    ch = fgetc(fp);
+                                    column_number++;
+                                }
+                                if (ch == EOF) {
+                                    fseek(fp, 0, SEEK_END);
+                                    file_offset = ftell(fp);
+                                } else
+                                    fseek(fp, -1, SEEK_CUR);
+
+                            }
+                        }
+                    }
+                    if  (ch != EOF)
+                        fseek(fp, -1, SEEK_CUR);
+                }
             }
             TOKEN[i] = '\0';
-            fseek(fp, -1, SEEK_CUR);
             if (is_real) {
                 Token token = {REAL, "", line_number, column_number};
                 strcpy(token.value, TOKEN);
+                out(token);
                 free(TOKEN);
                 file_offset = ftell(fp);
                 return token;
             } else if (is_hex) {
                 Token token = {HEX, "", line_number, column_number};
                 strcpy(token.value, TOKEN);
+                out(token);
                 free(TOKEN);
                 file_offset = ftell(fp);
                 return token;
             } else if (is_octal) {
                 Token token = {OCTAL, "", line_number, column_number};
                 strcpy(token.value, TOKEN);
+                out(token);
                 free(TOKEN);
                 file_offset = ftell(fp);
                 return token;
             } else {
                 Token token = {INT, "", line_number, column_number};
                 strcpy(token.value, TOKEN);
+                out(token);
                 free(TOKEN);
                 file_offset = ftell(fp);
                 return token;
             }
-        } else if (ch == '"') {
+        }
+        if (ch == '"') {
             ch = fgetc(fp);
             column_number++;
             i = 0;
@@ -252,6 +319,7 @@ Token getNextToken() {
                 if (ch == EOF) {
                     Token token = {END, " ", -1, -1};
                     report_error("String not closed");
+                    out(token);
                     free(TOKEN);
                     return token;
                 }
@@ -259,10 +327,12 @@ Token getNextToken() {
             TOKEN[i] = '\0';
             Token token = {STRING, "", line_number, column_number};
             strcpy(token.value, TOKEN);
+            out(token);
             free(TOKEN);
             file_offset = ftell(fp);
             return token;
-        } else if (ch == '\'') {
+        }
+        if (ch == '\'') {        // 字符
             ch = fgetc(fp);
             column_number++;
             i = 0;
@@ -275,10 +345,12 @@ Token getNextToken() {
             TOKEN[i] = '\0';
             Token token = {CHAR, "", line_number, column_number};
             strcpy(token.value, TOKEN);
+            out(token);
             free(TOKEN);
             file_offset = ftell(fp);
             return token;
-        } else if (ch == '(' || ch == ')' || ch == '{' || ch == '}' || ch == '[' || ch == ']' || ch == ';' || ch == ',') {
+        }
+        if (ch == '(' || ch == ')' || ch == '{' || ch == '}' || ch == '[' || ch == ']' || ch == ';' || ch == ',') {
             Token token;
             if (ch == '(') token = (Token){LP, "(", line_number, column_number};
             else if (ch == ')') token = (Token){RP, ")", line_number, column_number};
@@ -288,11 +360,13 @@ Token getNextToken() {
             else if (ch == ']') token = (Token){BRACKET, "]", line_number, column_number};
             else if (ch == ';') token = (Token){DOT, ";", line_number, column_number};
             else token = (Token){DOT, ",", line_number, column_number};
+            out(token);
             column_number++;
             free(TOKEN);
             file_offset = ftell(fp);
             return token;
-        } else if (ch == '=' || ch == '!' || ch == '<' || ch == '>' || ch == ':') {
+        }
+        if (ch == '=' || ch == '!' || ch == '<' || ch == '>' || ch == ':') {
             char next_ch = fgetc(fp);
             column_number++;
             Token token;
@@ -310,47 +384,44 @@ Token getNextToken() {
                 else if (ch == '>') token = (Token){GT, " ", line_number, column_number};
                 else {
                     report_error("Unknown operator");
+                    out(token);
                     free(TOKEN);
                     exit(1);
                 }
             }
+            out(token);
             free(TOKEN);
             file_offset = ftell(fp);
             return token;
-        } else if (ch == '+' || ch == '-' || ch == '*' || ch == '/') {
+        }
+        if (ch == '+' || ch == '-' || ch == '*' || ch == '/') {
             Token token;
             if (ch == '+') token = (Token){PLUS, " ", line_number, column_number};
             else if (ch == '-') token = (Token){MINUS, " ", line_number, column_number};
             else if (ch == '*') token = (Token){MUL, " ", line_number, column_number};
             else token = (Token){DIV, " ", line_number, column_number};
+            out(token);
             column_number++;
             free(TOKEN);
             file_offset = ftell(fp);
             return token;
-        } else {
+        }
+        if (isspace(ch)) {
+            if (ch == '\n') {
+                line_number++;
+                column_number = 0;
+            } else {
+                column_number++;
+            }
+            ch = fgetc(fp);
+            continue;
+        }
+        else {
             report_error("Unknown character");
+            Token token = {UNKNOWN, " ", line_number, column_number};
+            out(token);
             free(TOKEN);
             exit(1);
         }
-        ch = fgetc(fp);
-        column_number++;
     }
 }
-
-/*
-int Lexical2(){
-    FILE *fp = fopen("E:\\CODE\\CompileTestEnd\\input.txt", "r");
-    if (fp == NULL) {
-        printf("Error: Cannot open source file\n");
-        return 99;
-    }
-    output_file = fopen("E:\\CODE\\CompileTestEnd\\output.txt", "w");
-    if (output_file == NULL) {
-        printf("Error: Cannot open output file\n");
-        return 98;
-    }
-    scanner_example(fp);
-    fclose(fp);
-    fclose(output_file);
-    return 0;
-}*/

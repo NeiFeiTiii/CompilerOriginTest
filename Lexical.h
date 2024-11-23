@@ -9,8 +9,7 @@
 #define MAX_TOKEN_LENGTH 100
 #define TOKEN_NAMES_SIZE 28
 
-void out(int code, char *token,int line,int column);
-void report_error(const char *error_type);
+
 
 // 定义类别码的助记符
 typedef enum {
@@ -37,8 +36,10 @@ extern FILE *output_file;
 
 extern const char* token_names[];
 
-
+void out(Token token);
+void report_error(const char *error_type);
 int lookup(char *token);
 Token getNextToken();
+
 
 #endif // LEXICAL_H

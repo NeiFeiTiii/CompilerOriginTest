@@ -1,0 +1,7 @@
+(IF, if)
+(ID, x)
+(PLUS,  )
+(ID, r)
+(IS,  )
+(INT, 1)
+(END,  )
