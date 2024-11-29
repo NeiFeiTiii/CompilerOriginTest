@@ -12,7 +12,7 @@ WORD word;
 Token token;
 
 void ErrorPrint(const char *message){
-    printf("ERROR: %s at token %d (%s,%s),%d:%d\n", message, currentToken, token_names[token.type],token.value,token.row, token.col);
+    printf("ERROR: %s at token %d (%s,%s),%d:%d\n", message, currentToken, token_names[token.type],token.value,token.row, token.col+1);
     exit(666);
 }
 
@@ -76,7 +76,7 @@ char *T(void) {
 char *F(void) {
     char *place;
     if (word.Class == ID || word.Class == INT || word.Class == REAL) { // 标识符
-        place = strdup(word.Value.Val1);
+        place = strdup(token.value);    // 自动分配内存，然后复制字符串
         scanner();
         return place;
     } else if (word.Class == LP) { // 左括号

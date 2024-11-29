@@ -134,13 +134,16 @@ Token getNextToken() {
                         file_offset = ftell(fp);
                     }
                 }
-                if (ch != EOF)
+                if (ch != EOF) {
                     fseek(fp, -1, SEEK_CUR);
+                    ch = fgetc(fp);
+                    column_number++;
+                }
             }
             TOKEN[i] = '\0';
 
             file_offset = ftell(fp);
-            c = lookup(TOKEN);
+            c = lookup(TOKEN);      // 查找保留字，鉴定是否是特殊的保留字
             if (c == ID) {
                 Token token = {ID, "", line_number, column_number};
                 strcpy(token.value, TOKEN);
