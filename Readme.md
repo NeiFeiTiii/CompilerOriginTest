@@ -20,3 +20,24 @@ There are no major modifications or adjustments.
 The code is still in the experimental stage, and there may be some bugs.
 **Please use it with caution**.\
 Now, the `input.txt` ,the `output.txt` and a new file `lex.txt` is in the file folder `cmake-build-debug`.
+
+## Structure
+The structure of the code is as follows:
+```
+project_root/
+├── include/
+│   ├── Lexical.h
+│   ├── PraseWithRecursive.h
+├── src/
+│   ├── Lexical.c
+│   ├── PraseWithRecursive.c
+├── tests/
+│   ├── main.c
+├── Input
+│   ├── input.txt
+├── Out
+│   ├── output.txt
+│   ├── lex.txt
+├── CMakeLists.txt
+└── README.md
+```

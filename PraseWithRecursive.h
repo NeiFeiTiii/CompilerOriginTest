@@ -6,9 +6,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "GramAnalysis.h"
-
+#include "Lexical.h"
 #define MAXLENGTH 100
+extern int currentToken;
+
+void ErrorPrint(const char *message);   // 报错
+
+
+
 
 typedef struct {
     char op[MAXLENGTH];

@@ -4,7 +4,6 @@ project(CompileTestEnd C)
 set(CMAKE_C_STANDARD 11)
 
 add_executable(CompileTestEnd main.c
-        GramAnalysis.h
         Lexical.h
         PraseWithRecursive.h
         Lexical2.0.c

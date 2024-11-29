@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "PraseWithRecursive.h"
+#include "Lexical.h"
 
 QUATERNION pQuad[MAXLENGTH];
 int NXQ = 0;    /*全局变量NXQ用于指示所要产生的下一个四元式的编号*/
