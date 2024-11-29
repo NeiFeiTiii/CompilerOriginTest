@@ -1,7 +1,6 @@
 //
 // Created by ddd on 2024/11/22.
 //
-
 #include "Lexical.h"
 #include "PraseWithRecursive.h"
 
@@ -114,7 +113,7 @@ Token getNextToken() {
             }
             continue;
         }
-        if (isalpha(ch)) {  // ID
+        if (isalpha(ch) || ch == '_') {  // ID
             TOKEN[0] = ch;
             column_number++;
             i = 1;
@@ -124,7 +123,7 @@ Token getNextToken() {
                 file_offset = ftell(fp);
             }
             else{
-                while (isalnum(ch)) {
+                while (isalnum(ch) || ch == '_') {
                     TOKEN[i] = ch;
                     i++;
                     ch = fgetc(fp);
@@ -145,6 +144,8 @@ Token getNextToken() {
             file_offset = ftell(fp);
             c = lookup(TOKEN);      // 查找保留字，鉴定是否是特殊的保留字
             if (c == ID) {
+                fseek(fp, -1, SEEK_CUR);
+                file_offset = ftell(fp);
                 Token token = {ID, "", line_number, column_number};
                 strcpy(token.value, TOKEN);
                 out(token);
@@ -216,6 +217,7 @@ Token getNextToken() {
                         is_real = 1;
                         i++;
                         ch = fgetc(fp);
+                        column_number++;
                         while (isdigit(ch)) {
                             TOKEN[i] = ch;
                             i++;
@@ -234,6 +236,7 @@ Token getNextToken() {
                         i++;
                         ch = fgetc(fp);
                         column_number++;
+
                         if (ch == EOF) {
                             fseek(fp, 0, SEEK_END);
                             file_offset = ftell(fp);
@@ -248,17 +251,6 @@ Token getNextToken() {
                                     fseek(fp, 0, SEEK_END);
                                     file_offset = ftell(fp);
                                     ErrorPrint("Real number not complete,In the end of file");
-                                    while (isdigit(ch)) {
-                                        TOKEN[i] = ch;
-                                        i++;
-                                        ch = fgetc(fp);
-                                        column_number++;
-                                    }
-                                    if (ch == EOF) {
-                                        fseek(fp, 0, SEEK_END);
-                                        file_offset = ftell(fp);
-                                    } else
-                                        fseek(fp, -1, SEEK_CUR);
                                 }
                                 while (isdigit(ch)) {
                                     TOKEN[i] = ch;
@@ -271,7 +263,19 @@ Token getNextToken() {
                                     file_offset = ftell(fp);
                                 } else
                                     fseek(fp, -1, SEEK_CUR);
-
+                            }
+                            else if(isdigit(ch)) {
+                                while (isdigit(ch)) {
+                                    TOKEN[i] = ch;
+                                    i++;
+                                    ch = fgetc(fp);
+                                    column_number++;
+                                }
+                                if (ch == EOF) {
+                                    fseek(fp, 0, SEEK_END);
+                                    file_offset = ftell(fp);
+                                } else
+                                    fseek(fp, -1, SEEK_CUR);
                             }
                         }
                     }
@@ -285,7 +289,7 @@ Token getNextToken() {
                 strcpy(token.value, TOKEN);
                 out(token);
                 free(TOKEN);
-                file_offset = ftell(fp);
+                file_offset = ftell(fp)+1;
                 return token;
             } else if (is_hex) {
                 Token token = {HEX, "", line_number, column_number};

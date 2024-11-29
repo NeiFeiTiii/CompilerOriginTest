@@ -14,6 +14,15 @@ Token token;
 
 void ErrorPrint(const char *message){
     printf("ERROR: %s at token %d (%s,%s),%d:%d\n", message, currentToken, token_names[token.type],token.value,token.row, token.col+1);
+    FILE *output_file = fopen("output.txt", "w");
+    if (output_file == NULL) {
+        printf("Error: Cannot open output file\n");
+        exit(661);
+    }
+    for (int i = 0; i < NXQ; i++) {
+        fprintf(output_file, "(%s, %s, %s, %s)\n", pQuad[i].op, pQuad[i].arg1, pQuad[i].arg2, pQuad[i].result);
+    }
+    fclose(output_file);
     exit(666);
 }
 

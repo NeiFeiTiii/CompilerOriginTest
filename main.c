@@ -6,8 +6,10 @@ void clearFile(const char *filename) {
         fclose(file);
     }
 }
+
 int main() {
     clearFile("Lex.txt");
+    clearFile("output.txt");
     PraseWithRecursive();
     return 0;
 }

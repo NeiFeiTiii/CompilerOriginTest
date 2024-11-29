@@ -12,9 +12,6 @@ extern int currentToken;
 
 void ErrorPrint(const char *message);   // 报错
 
-
-
-
 typedef struct {
     char op[MAXLENGTH];
     char arg1[MAXLENGTH];
